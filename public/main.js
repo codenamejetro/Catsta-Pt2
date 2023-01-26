@@ -18,6 +18,10 @@ export const createMainContent = () => {
     container.append(newKittenBtn);
     container.appendChild(img);
 
+    // if(localStorage.curScore){
+    //     localStorage.removeItem("curScore")
+    // }
+
     fetchImage();
 };
 
@@ -44,10 +48,10 @@ const fetchImage = async () => {
 
 
             // After the image is finished loading, reset the score and comments
-            kittenImg.addEventListener('load', () => {
-                resetScore();
-                resetComments();
-            });
+            // kittenImg.addEventListener('load', () => {
+            //     resetScore();
+            //     resetComments();
+            // });
         } catch (e) {
             console.log("Failed to fetch image", e);
         }
@@ -70,7 +74,6 @@ const newCat = async () => {
     kittenImg.addEventListener('load', () => {
         resetScore();
         resetComments();
-        localStorage.removeItem(kittenImg.src)
     });
 }
 
@@ -79,6 +82,6 @@ const createNewKittenBtn = () => {
     const newKittenBtn = document.createElement("button");
     newKittenBtn.id = "new-kitten";
     newKittenBtn.innerText = "New Kitten";
-    newKittenBtn.addEventListener('click', newCat);
+    newKittenBtn.addEventListener('click', newCat());
     return newKittenBtn;
 };
