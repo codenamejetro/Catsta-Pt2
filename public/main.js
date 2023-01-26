@@ -23,30 +23,62 @@ export const createMainContent = () => {
 
 const fetchImage = async () => {
     // Fetch image from API and set img url
-    try {
-        const kittenResponse = await fetch("https://api.thecatapi.com/v1/images/search?size=small");
-        // Converts to JSON
-        const kittenData = await kittenResponse.json();
-        // console.log(kittenData);
-        const kittenImgUrl = kittenData[0].url;
-        const kittenImg = document.querySelector("img");
-        kittenImg.src = kittenImgUrl;
+    let kittenImgUrl = localStorage.getItem("autosave")
 
-        // After the image is finished loading, reset the score and comments
-        kittenImg.addEventListener('load', () => {
-            resetScore();
-            resetComments();
-        });
-    } catch (e) {
-        console.log("Failed to fetch image", e);
+    if (kittenImgUrl) {
+    const kittenImg = document.querySelector("img");
+    kittenImg.src = kittenImgUrl
     }
+    else {
+        try {
+            const kittenResponse = await fetch("https://api.thecatapi.com/v1/images/search?size=small");
+            // Converts to JSON
+            const kittenData = await kittenResponse.json();
+            // console.log(kittenData);
+            kittenImgUrl = kittenData[0].url;
+            localStorage.setItem("autosave", kittenImgUrl)
+
+            const kittenImg = document.querySelector("img");
+            kittenImg.src = kittenImgUrl;
+
+
+
+            // After the image is finished loading, reset the score and comments
+            kittenImg.addEventListener('load', () => {
+                resetScore();
+                resetComments();
+            });
+        } catch (e) {
+            console.log("Failed to fetch image", e);
+        }
+    }
+
 };
+
+const newCat = async () => {
+    const kittenResponse = await fetch("https://api.thecatapi.com/v1/images/search?size=small");
+    // Converts to JSON
+    const kittenData = await kittenResponse.json();
+    const kittenImgUrl = kittenData[0].url;
+    localStorage.setItem("autosave", kittenImgUrl)
+    // console.log(kittenData);
+    const kittenImg = document.querySelector("img");
+    kittenImg.src = kittenImgUrl;
+
+
+
+    kittenImg.addEventListener('load', () => {
+        resetScore();
+        resetComments();
+        localStorage.removeItem(kittenImg.src)
+    });
+}
 
 const createNewKittenBtn = () => {
     // Create "New Kitten" button
     const newKittenBtn = document.createElement("button");
     newKittenBtn.id = "new-kitten";
     newKittenBtn.innerText = "New Kitten";
-    newKittenBtn.addEventListener('click', fetchImage);
+    newKittenBtn.addEventListener('click', newCat);
     return newKittenBtn;
 };
