@@ -18,10 +18,6 @@ export const createMainContent = () => {
     container.append(newKittenBtn);
     container.appendChild(img);
 
-    // if(localStorage.curScore){
-    //     localStorage.removeItem("curScore")
-    // }
-
     fetchImage();
 };
 
@@ -82,6 +78,6 @@ const createNewKittenBtn = () => {
     const newKittenBtn = document.createElement("button");
     newKittenBtn.id = "new-kitten";
     newKittenBtn.innerText = "New Kitten";
-    newKittenBtn.addEventListener('click', newCat());
+    newKittenBtn.addEventListener('click', newCat);
     return newKittenBtn;
 };

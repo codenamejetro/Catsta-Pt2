@@ -78,6 +78,7 @@ const submitComment = e => {
     const commentText = commentInput.value;
     createComment(commentText);
     commentInput.value = "";
+    commentsArr(commentText)
 }
 
 const createComment = (commentText) => {
@@ -103,6 +104,14 @@ const createComment = (commentText) => {
     comments.appendChild(newCommentContainer);
 };
 
+function commentsArr (commentText) {
+ 
+    let newArr = [];
+    
+    localStorage.setItem("saved", newArr)
+    
+    newArr.push(commentText)
+}
 
 export const resetComments = () => {
     const comments = document.querySelector(".comments");
